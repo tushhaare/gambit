@@ -1757,7 +1757,8 @@ def start():
         worker = Worker()
     if not IS_SERVERLESS and tunnel is None and os.environ.get("KFM_TUNNEL", "1") == "1" and __name__ == "__main__":
         from tunnel import Tunnel
-        tunnel = Tunnel(int(os.environ.get("KFM_PORT", "5100")), log=lambda m: worker.log(m) if worker else print(m))
+        t_port = int(os.environ.get("PORT") or os.environ.get("KFM_PORT") or 5100)
+        tunnel = Tunnel(t_port, log=lambda m: worker.log(m) if worker else print(m))
     if tunnel is not None and tunnel.status == "off":
         tunnel.start()
 
@@ -1765,7 +1766,7 @@ def start():
 start()
 
 if __name__ == "__main__":
-    port = int(os.environ.get("KFM_PORT", "5100"))
+    port = int(os.environ.get("PORT") or os.environ.get("KFM_PORT") or 5100)
     print("\n  [DEV] Gambit — poster & thumbnail studio")
     print(f"  Is PC pe:        http://localhost:{port}")
     print(f"  Teammates ke liye: http://<is-PC-ka-Tailscale-naam-ya-IP>:{port}\n")
