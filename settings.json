@@ -1,0 +1,22 @@
+{
+  "cdp_url": "http://localhost:9223",
+  "image_prefix": "Create an image: ",
+  "master_wait": 90,
+  "image_timeout": 360,
+  "gap_seconds": 8,
+  "retries": 1,
+  "openai_api_key": "",
+  "api_model": "dall-e-3",
+  "api_size": "1024x1024",
+  "api_quality": "",
+  "master_suffix": "IMPORTANT: Do NOT generate any image for this message. These are only the rules for this chat. Reply with just one line: \"READY — rules samajh gaya, brief bhejo.\" Generate an image only when I send a brief.",
+  "series_format": "webp",
+  "episode_format": "png",
+  "webp_quality": 92,
+  "poster_site_url": "https://funda-audio-thumbnail-gen.vercel.app/",
+  "poster_size": "1000x1500",
+  "poster_format": "webp",
+  "poster_timeout": 300,
+  "poster_headless": 1,
+  "public_url": ""
+}

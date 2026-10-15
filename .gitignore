@@ -1,0 +1,36 @@
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache & build
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Netlify build artifacts
+.netlify/
+public/
+
+# Local generated files & secrets
+outputs/
+secret.key
+
+# Tools & heavy binaries
+tools/cloudflared*
+tools/*.exe
+tools/*.bin
+*.part
+
+# Environment configs
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini

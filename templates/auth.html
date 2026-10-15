@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ 'Set up' if mode == 'setup' else 'Log in' }} · Gambit</title>
+<meta name="theme-color" content="#120F1A">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css?v={{ v }}">
+<style>
+  .auth{min-height:100vh;display:grid;place-items:center;padding:16px}
+  .auth-card{width:min(420px,100%);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8)}
+  .auth-card .brand{margin-bottom:18px}
+  .auth-card h1{font:800 26px/1.1 var(--display);margin:0 0 6px;letter-spacing:-.01em}
+  .auth-card p{color:var(--muted);margin:0 0 20px;font-size:14px}
+  .auth-card form{display:grid;gap:14px}
+  .auth-err{background:rgba(255,93,71,.1);border:1px solid rgba(255,93,71,.4);color:#FF8A78;padding:10px 12px;border-radius:10px;font-size:13.5px}
+</style>
+</head>
+<body>
+<main class="auth">
+  <div class="auth-card">
+    <div class="brand">
+      <svg class="brand-disc" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#F7A928"/><circle cx="20" cy="20" r="14" fill="none" stroke="#120F1A" stroke-opacity=".35"/><circle cx="20" cy="20" r="10" fill="none" stroke="#120F1A" stroke-opacity=".35"/><circle cx="20" cy="20" r="4.5" fill="#120F1A"/></svg>
+      <div><div class="brand-name">Gambit</div><div class="brand-sub">Poster &amp; thumbnail studio</div></div>
+    </div>
+    {% if mode == 'setup' %}
+      <h1>Admin account banao</h1>
+      <p>Ye is hub ka pehla account hai. Isse aap teammates ko add karoge aur settings badloge.</p>
+    {% else %}
+      <h1>Log in</h1>
+      <p>Apna naam aur password daalo. Account admin (Sagar) banata hai.</p>
+    {% endif %}
+    {% if error %}<div class="auth-err">{{ error }}</div>{% endif %}
+    <form method="post" style="margin-top:{{ '14px' if error else '0' }}">
+      <label class="field">Name<input name="name" autocomplete="username" required autofocus></label>
+      <label class="field">Password<input name="password" type="password" autocomplete="{{ 'new-password' if mode == 'setup' else 'current-password' }}" required></label>
+      <button class="btn btn-primary btn-lg btn-block" type="submit">{{ 'Create admin account' if mode == 'setup' else 'Log in' }}</button>
+    </form>
+  </div>
+</main>
+</body>
+</html>

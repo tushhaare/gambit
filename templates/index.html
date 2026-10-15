@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gambit · DEV</title>
+<meta name="theme-color" content="#120F1A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F7A928'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23120F1A' stroke-width='1.5' opacity='.5'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23120F1A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css?v={{ v }}">
+<script src="/static/Sortable.min.js?v={{ v }}"></script>
+</head>
+<body>
+
+<!-- icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></symbol>
+    <symbol id="i-paste" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></symbol>
+    <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 6.5a5.5 5.5 0 0 1 5.5 5.5"/></symbol>
+    <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="18" r="1.4" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h11"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="12" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="16" width="7" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <!-- ============ Sidebar ============ -->
+  <aside class="side">
+    <div class="brand">
+      <svg class="brand-disc" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#F7A928"/>
+        <circle cx="20" cy="20" r="14" fill="none" stroke="#120F1A" stroke-opacity=".35"/>
+        <circle cx="20" cy="20" r="10" fill="none" stroke="#120F1A" stroke-opacity=".35"/>
+        <circle cx="20" cy="20" r="4.5" fill="#120F1A"/>
+      </svg>
+      <div>
+        <div class="brand-name">Gambit</div>
+        <div class="brand-sub">Poster &amp; thumbnail studio · <b style="color:#e8590c">DEV</b></div>
+      </div>
+    </div>
+
+    <div class="ws-switch" id="wsSwitch">
+      <button class="ws-btn" id="wsBtn" aria-haspopup="listbox" aria-expanded="false">
+        <span class="ws-dot" id="wsDot"></span><span class="ws-name" id="wsName">…</span>
+        <svg class="ic ws-caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="ws-menu hidden" id="wsMenu" role="listbox"></div>
+    </div>
+
+    <nav class="side-nav" aria-label="Main">
+      <button class="nav-item active" id="dashBtn"><svg class="ic"><use href="#i-grid"/></svg>Dashboard</button>
+      <button class="nav-item" id="teamBtn"><svg class="ic"><use href="#i-users"/></svg>Team &amp; agents<span class="dot" id="myAgentDot" title="Mera agent"></span></button>
+      <button class="nav-item admin-only" id="wsSettingsBtn"><svg class="ic"><use href="#i-sheet"/></svg>Workspace &amp; templates</button>
+      <button class="nav-item admin-only" id="settingsBtn"><svg class="ic"><use href="#i-gear"/></svg>Settings</button>
+    </nav>
+
+    <div class="linkcard" id="linkCard" title="Aaj ka team link — teammates isi se kholte hain">
+      <span class="dot" id="linkDot"></span>
+      <span class="link-text"><small>Team link</small><b id="linkUrl">ban raha hai…</b></span>
+      <button class="btn btn-icon btn-quiet" id="copyLinkBtn" aria-label="Copy team link"><svg class="ic"><use href="#i-copy"/></svg></button>
+    </div>
+
+    <div class="side-label"><span><span id="projLabel">Series</span> <small id="sideCount"></small></span>
+      <button class="btn btn-icon btn-quiet" id="newSeriesBtn" title="Naya project" aria-label="New project"><svg class="ic"><use href="#i-plus"/></svg></button>
+    </div>
+    <label class="search">
+      <svg class="ic"><use href="#i-search"/></svg>
+      <input id="seriesSearch" placeholder="Dhoondho…" aria-label="Search">
+    </label>
+
+    <nav id="seriesList" class="series-list" aria-label="Series"></nav>
+
+    <div class="side-foot">
+      <div class="me">
+        <span class="me-avatar" id="meAvatar">?</span>
+        <span class="me-name"><b id="meName">…</b><small id="meRole"></small></span>
+        <a class="btn btn-icon btn-quiet" href="/logout" title="Log out" aria-label="Log out"><svg class="ic"><use href="#i-logout"/></svg></a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ Main ============ -->
+  <main class="main">
+    <section id="empty" class="dash">
+      <header class="dash-head">
+        <div>
+          <p class="dash-hello" id="dashHello">Namaste</p>
+          <h1 class="dash-title">Dashboard</h1>
+        </div>
+        <div class="dash-tools">
+          <div class="seg" role="radiogroup" aria-label="Kitne din">
+            <button class="seg-btn range-btn on" data-days="7" role="radio">7 din</button>
+            <button class="seg-btn range-btn" data-days="14" role="radio">14 din</button>
+            <button class="seg-btn range-btn" data-days="30" role="radio">30 din</button>
+          </div>
+          <button class="btn btn-primary" id="emptyNewBtn"><svg class="ic"><use href="#i-plus"/></svg>New series</button>
+        </div>
+      </header>
+
+      <div class="kpis" id="kpis"></div>
+      <div class="insights" id="insights"></div>
+
+      <div class="dash-grid">
+        <section class="panel dash-chart span2">
+          <div class="panel-head"><h2>Thumbnails per day</h2>
+            <div class="legend" id="dailyLegend"><span><i style="background:var(--good)"></i>Bane</span><span><i style="background:var(--bad)"></i>Fail</span></div>
+          </div>
+          <div class="chart" id="dailyChart"></div>
+          <details class="tbl-toggle"><summary>Table dekho</summary><div id="dailyTable"></div></details>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Abhi ka haal</h2></div>
+          <div class="live" id="liveBox"></div>
+        </section>
+
+        <section class="panel span2">
+          <div class="panel-head"><h2>Series</h2><span class="hint">Row pe click = series kholo</span></div>
+          <div class="table-wrap"><table class="dtable" id="seriesTable"></table></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Team</h2><span class="hint">kisne kitne banaye</span></div>
+          <div id="peopleBox"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><h2>Variants &amp; regenerate</h2></div>
+          <div id="geminiBox"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Fail kyun hue</h2></div>
+          <div id="failBox"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Kis waqt kaam hota hai</h2></div>
+          <div class="chart chart-sm" id="hoursChart"></div>
+        </section>
+        <section class="panel span3">
+          <div class="panel-head"><h2>Recent activity</h2></div>
+          <div id="feedBox" class="feed"></div>
+        </section>
+      </div>
+
+      <section class="panel onboard hidden" id="onboard">
+        <h2>Shuru kaise karein</h2>
+        <ol class="flow">
+          <li><span><b>start_chrome.bat</b> chalao aur ChatGPT mein login rakho</span></li>
+          <li><span><b>New series</b> banao, master prompt paste karo, briefs <b>Bulk paste</b> karo</span></li>
+          <li><span>Briefs ek baar padh lo, <b>Generate</b> dabao</span></li>
+          <li><span>Phir <b>Make app posters</b></span></li>
+        </ol>
+      </section>
+      <div class="tip" id="dashTip" role="tooltip"></div>
+    </section>
+
+    <section id="seriesView" class="hidden">
+      <!-- header -->
+      <header class="head">
+        <div class="title-wrap">
+          <input id="seriesName" class="title-input" placeholder="Project name" aria-label="Project name">
+          <div class="proj-meta" id="projMeta"></div>
+        </div>
+        <div class="head-tools">
+          <div class="seg" role="radiogroup" aria-label="Engine">
+            <button class="seg-btn" data-engine="browser" role="radio"><svg class="ic"><use href="#i-chat"/></svg>ChatGPT</button>
+            <button class="seg-btn" data-engine="api" role="radio"><svg class="ic"><use href="#i-image"/></svg>OpenAI API</button>
+          </div>
+          <label class="runon" id="runOnWrap" title="Kiske ChatGPT pe images banengi">
+            <svg class="ic"><use href="#i-laptop"/></svg>
+            <select id="runOnSel" aria-label="Run on"></select>
+          </label>
+          <button class="btn btn-ghost admin-only" id="folderBtn" title="Series folder kholo (hub PC pe)"><svg class="ic"><use href="#i-folder"/></svg>Folder</button>
+          <button class="btn btn-ghost" id="downloadBtn" title="Images, posters, final files ya Excel download karo"><svg class="ic"><use href="#i-download"/></svg>Download</button>
+          <button class="btn btn-ghost" id="convertBtn" title="Bani hui images ko format settings ke hisaab se badlo"><svg class="ic"><use href="#i-swap"/></svg>Formats</button>
+          <button class="btn btn-icon btn-danger-ghost" id="deleteSeriesBtn" title="Series delete karo" aria-label="Delete series"><svg class="ic"><use href="#i-trash"/></svg></button>
+        </div>
+      </header>
+
+      <!-- reel: the signature filmstrip -->
+      <section class="reel" aria-label="Progress">
+        <div class="reel-strip" id="reelStrip"></div>
+        <div class="reel-bar">
+          <div class="reel-stats" id="stats"></div>
+          <div class="reel-actions">
+            <label class="toggle" title="Bani hui image ko dobara banate waqt agla master variant (alag chat) use karo — alag image milegi">
+              <input type="checkbox" id="rotateChk" checked><span class="toggle-ui"></span>Regenerate = naya variant
+            </label>
+            <label class="toggle" title="Purani chat chhod ke nayi ChatGPT chat se shuru karo">
+              <input type="checkbox" id="newChatChk"><span class="toggle-ui"></span>New chat
+            </label>
+            <button class="btn btn-ghost" id="genAllBtn"><svg class="ic"><use href="#i-redo"/></svg>Regenerate all</button>
+            <button class="btn btn-stop" id="stopBtn"><svg class="ic"><use href="#i-stop"/></svg>Stop</button>
+            <button class="btn btn-primary btn-lg" id="genPendingBtn"><svg class="ic"><use href="#i-play"/></svg>Generate pending</button>
+          </div>
+        </div>
+        <div class="chatline" id="chatLine"></div>
+      </section>
+
+      <div class="cols">
+        <div class="col-main">
+          <section class="panel" id="refsPanel">
+            <div class="panel-head">
+              <h2><span class="step">·</span>Reference images <span class="count" id="refCount"></span></h2>
+              <div class="tools"><label class="btn btn-ghost btn-sm"><svg class="ic"><use href="#i-upload"/></svg>Add<input type="file" id="refFiles" accept="image/*" multiple hidden></label></div>
+            </div>
+            <p class="hint">Nayi ChatGPT chat mein master ke saath ye images attach hoti hain — "is style jaisa banao". Template ki references sabke liye; yahan jodi hui sirf is project ke liye.</p>
+            <div id="refList" class="ref-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2><span class="step">1</span>Master prompts <span class="count" id="variantCount"></span></h2>
+              <span class="hint">Har variant ki apni ChatGPT chat. <b>Generate</b> = active variant · <b>Regenerate</b> = agla variant (wahi style, alag image).</span>
+            </div>
+            <div class="var-tabs" id="variantTabs" role="tablist"></div>
+            <div class="var-meta" id="variantMeta"></div>
+            <textarea id="masterPrompt" class="master" rows="7" placeholder="Series ka master prompt yahan paste karo…"></textarea>
+          </section>
+
+          <section class="panel" id="charPanel">
+            <div class="panel-head">
+              <h2><span class="step">1b</span>Character sheet <span class="count" id="charCount"></span></h2>
+              <div class="tools"><button class="btn btn-ghost btn-sm" id="charAddBtn"><svg class="ic"><use href="#i-plus"/></svg>Character</button></div>
+            </div>
+            <p class="hint">Har character ka ek fixed look — saare master variants mein khud jaata hai, taaki har poster mein <b>wahi chehra</b> bane. Badloge to saare variants update + nayi chat.</p>
+            <div id="charList" class="char-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2><span class="step">2</span><span id="itemsTitle">Thumbnails</span> <span class="count" id="itemCount"></span></h2>
+              <div class="tools">
+                <button class="btn btn-accent btn-sm hidden" id="builderBtn"><svg class="ic"><use href="#i-sheet"/></svg>Post builder</button>
+                <button class="btn btn-ghost btn-sm" id="addSeriesItemBtn"><svg class="ic"><use href="#i-plus"/></svg>Series thumbnail</button>
+                <button class="btn btn-ghost btn-sm" id="addEpisodeBtn"><svg class="ic"><use href="#i-plus"/></svg>Episode</button>
+                <button class="btn btn-accent btn-sm" id="bulkBtn"><svg class="ic"><use href="#i-paste"/></svg>Bulk paste</button>
+              </div>
+            </div>
+            <div id="dropZone" class="drop">
+              <svg class="ic"><use href="#i-upload"/></svg>
+              <span><b>.txt files yahan chhodo.</b> Ek file = ek brief, ya ek file mein <code>===</code> se alag briefs.</span>
+            </div>
+            <div id="items" class="items"></div>
+          </section>
+        </div>
+
+        <aside class="col-side">
+          <section class="panel console-panel">
+            <div class="panel-head">
+              <h2><span class="step">3</span>Live run</h2>
+              <span class="state" id="statePill">idle</span>
+            </div>
+            <div id="currentLine" class="current"></div>
+            <div id="agentsLine" class="agents"></div>
+            <pre id="log" class="console">Generate dabao — yahan live log dikhega.
+</pre>
+          </section>
+
+          <section class="panel poster-cta" id="posterPanel">
+            <div class="panel-head">
+              <h2><span class="step">4</span>App posters</h2>
+            </div>
+            <p class="hint">Bane hue thumbnails ko Funda Poster Studio se CD wale 2:3 WebP posters mein badlo — seedha app pe upload karne ke liye.</p>
+            <div class="poster-actions">
+              <button class="btn btn-orchid" id="postersBtn"><svg class="ic"><use href="#i-disc"/></svg>Make app posters</button>
+              <button class="btn btn-ghost" id="finalZipBtn" title="Final naam wali WebP files zip mein"><svg class="ic"><use href="#i-download"/></svg>Final files</button>
+              <button class="btn btn-ghost admin-only" id="finalBtn" title="Final folder hub PC pe kholo"><svg class="ic"><use href="#i-folder"/></svg>Final folder</button>
+              <button class="btn btn-quiet btn-sm admin-only" id="openPostersBtn2">Raw posters</button>
+            </div>
+            <ul class="final-legend">
+              <li>Episode → <code>Episode Name.webp</code> (CD)</li>
+              <li>Series → <code>Series Name (Series Thumbnail).webp</code> (CD)</li>
+              <li>Series → <code>Series Name.webp</code> (bina CD)</li>
+            </ul>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><h2>Gallery</h2></div>
+            <div id="gallery" class="gallery"></div>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ Modals ============ -->
+<div class="modal hidden" id="newSeriesModal" role="dialog" aria-modal="true" aria-labelledby="nsTitle">
+  <div class="sheet sheet-sm">
+    <h3 id="nsTitle">Naya project</h3>
+    <label class="field">Naam<input id="newSeriesName" placeholder="e.g. Pandavas: Swarg Ka Raasta"></label>
+    <label class="field">Template<select id="newTemplate"></select></label>
+    <label class="field">Size<select id="newRatio"></select></label>
+    <p class="hint" id="newHint"></p>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary" id="newSeriesCreate">Create</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="builderModal" role="dialog" aria-modal="true" aria-labelledby="bTitle">
+  <div class="sheet sheet-wide">
+    <h3 id="bTitle">Post builder</h3>
+    <p class="hint" id="bHint"></p>
+    <div class="b-grid">
+      <div class="b-form">
+        <div class="b-row" id="bTitleRow">
+          <label class="field">Heading<input id="bHeading" placeholder="Adjectives made easy"></label>
+          <label class="field">Subtitle<input id="bSub" placeholder="Describe people, places, things and feelings"></label>
+        </div>
+        <label class="field">Table — Google Sheet se copy-paste karo (ya har line mein columns "|" se alag)
+          <textarea id="bTable" rows="12" spellcheck="false"></textarea></label>
+        <p class="hint">Sentence mein jis word ko highlight karna hai use <code>*star*</code> mein likho — warna word khud dhoondh liya jaata hai. Visual column khaali chhod sakte ho.</p>
+        <label class="toggle"><input type="checkbox" id="bReplace"><span class="toggle-ui"></span>Purane posts hata ke naye daalo</label>
+      </div>
+      <div class="b-preview">
+        <div class="b-prev-head"><b id="bCount">Preview</b></div>
+        <pre id="bPreview" class="b-pre">Table daalo — yahan brief dikhega.</pre>
+      </div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary" id="bCreate">Posts banao</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="wsModal" role="dialog" aria-modal="true" aria-labelledby="wsTitle">
+  <div class="sheet sheet-wide ws-sheet">
+    <div class="ws-head"><h3 id="wsTitle">Workspace</h3>
+      <div class="seg ws-tabs" role="tablist">
+        <button class="seg-btn on" data-wstab="general">General</button>
+        <button class="seg-btn" data-wstab="rules">Brand rules</button>
+        <button class="seg-btn" data-wstab="chars">Characters</button>
+        <button class="seg-btn" data-wstab="tpl">Templates</button>
+      </div></div>
+    <div class="ws-pane" data-pane="general">
+      <div class="ws-cols">
+        <label class="field">Naam<input id="wsF_name"></label>
+        <label class="field">Projects ko kya kahein<input id="wsF_project_label" placeholder="Series / Post set / Campaign"></label>
+        <label class="field">Default size<select id="wsF_default_ratio"></select></label>
+        <label class="field">Colour<input id="wsF_color" type="color"></label>
+        <label class="field">Image ko exact size pe laao<select id="wsF_fit_mode">
+          <option value="crop">Crop (beech se kaato)</option><option value="pad">Pad (kinare pe background badhao)</option><option value="off">Off (jaisi aayi waisi)</option></select></label>
+        <label class="field">Neeche branding strip (% height)<input id="wsF_safe_bottom_pct" type="number" min="0" max="25"></label>
+      </div>
+      <div class="logo-box">
+        <div class="logo-prev" id="wsLogoPrev">Logo nahi</div>
+        <div>
+          <label class="btn btn-ghost btn-sm"><svg class="ic"><use href="#i-upload"/></svg>Logo upload (PNG)<input type="file" id="wsLogoFile" accept=".png,.webp" hidden></label>
+          <label class="toggle"><input type="checkbox" id="wsF_logo_on"><span class="toggle-ui"></span>Har image ke neeche logo lagao</label>
+          <label class="field">Logo chaudai (% image width)<input id="wsF_logo_width_pct" type="number" min="5" max="80"></label>
+        </div>
+      </div>
+      <div class="ws-danger"><button class="btn btn-ghost btn-sm" id="wsNewBtn"><svg class="ic"><use href="#i-plus"/></svg>Naya workspace</button>
+        <button class="btn btn-quiet btn-sm" id="wsDelBtn">Ye workspace delete karo</button></div>
+    </div>
+    <div class="ws-pane hidden" data-pane="rules">
+      <p class="hint">Brand ke rules — har naye project ke master prompt ki shuruaat yahi hoti hai (phir template ka format + size + characters).</p>
+      <textarea id="wsF_base_prompt" class="master" rows="20" spellcheck="false"></textarea>
+    </div>
+    <div class="ws-pane hidden" data-pane="chars">
+      <p class="hint">Is brand ke recurring characters — naye project ke master mein khud jaate hain, chehra har post mein same.</p>
+      <div id="wsChars" class="char-list"></div>
+      <button class="btn btn-ghost btn-sm" id="wsCharAdd"><svg class="ic"><use href="#i-plus"/></svg>Character</button>
+    </div>
+    <div class="ws-pane hidden" data-pane="tpl">
+      <div class="tpl-grid">
+        <div class="tpl-list" id="tplList"></div>
+        <div class="tpl-edit" id="tplEdit"></div>
+      </div>
+    </div>
+    <div class="sheet-actions">
+      <span class="hint" id="wsSaved"></span>
+      <button class="btn btn-ghost" data-close>Close</button>
+      <button class="btn btn-primary" id="wsSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="bulkModal" role="dialog" aria-modal="true" aria-labelledby="bulkTitle">
+  <div class="sheet">
+    <h3 id="bulkTitle">Bulk paste briefs</h3>
+    <p class="hint">Har brief ke beech ek line par sirf <code>===</code>. Pehla brief series thumbnail (agar abhi tak nahi hai), baaki EP01, EP02…</p>
+    <textarea id="bulkText" rows="16" placeholder="SERIES THUMBNAIL — …&#10;===&#10;EP01 — Title &quot;…&quot; …&#10;===&#10;EP02 — …"></textarea>
+    <label class="toggle"><input type="checkbox" id="bulkFirstSeries" checked><span class="toggle-ui"></span>Pehla brief series thumbnail hai</label>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary" id="bulkSave">Add briefs</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="postersModal" role="dialog" aria-modal="true" aria-labelledby="pTitle">
+  <div class="sheet">
+    <h3 id="pTitle">Make app posters</h3>
+    <p class="hint">Chuni hui images Funda Poster Studio pe jaayengi → CD background ke saath 2:3 WebP posters → phir <code>final/</code> folder mein sahi naam se: episode ka naam, series ke do version (CD wala “(Series Thumbnail)” aur bina CD).</p>
+    <label class="field">Poster size
+      <select id="posterSize">
+        <option value="600x900">600 × 900 px</option>
+        <option value="1000x1500">1000 × 1500 px</option>
+        <option value="1080x1620">1080 × 1620 px</option>
+        <option value="1200x1800">1200 × 1800 px</option>
+      </select>
+    </label>
+    <div class="picks-head"><span class="hint" id="pickCount"></span><button class="link" id="pickToggle">Select none</button></div>
+    <div class="picks" id="posterPicks"></div>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost admin-only" id="openPostersBtn"><svg class="ic"><use href="#i-folder"/></svg>Posters folder</button>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-orchid" id="postersGo"><svg class="ic"><use href="#i-disc"/></svg>Make posters</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="sTitle">
+  <div class="sheet">
+    <h3 id="sTitle">Settings</h3>
+    <div class="form">
+      <h4>ChatGPT (browser)</h4>
+      <label class="field">Chrome debug URL<input id="s_cdp_url"></label>
+      <label class="field">Image prefix<input id="s_image_prefix"></label>
+      <label class="field">Master reply wait (sec)<input type="number" id="s_master_wait"></label>
+      <label class="field" style="grid-column:1/-1">Master ke baad line (ChatGPT image na banaye, sirf READY bole)<textarea id="s_master_suffix" rows="2"></textarea></label>
+      <label class="field">Image timeout (sec)<input type="number" id="s_image_timeout"></label>
+      <label class="field">Gap between images (sec)<input type="number" id="s_gap_seconds"></label>
+      <label class="field">Retries on fail<input type="number" id="s_retries"></label>
+
+      <h4>Files</h4>
+      <label class="field">Series thumbnail format<select id="s_series_format"><option value="webp">WebP</option><option value="png">PNG</option><option value="jpg">JPG</option></select></label>
+      <label class="field">Episode thumbnails format<select id="s_episode_format"><option value="png">PNG</option><option value="webp">WebP</option><option value="jpg">JPG</option></select></label>
+      <label class="field">WebP / JPG quality (1–100)<input type="number" id="s_webp_quality"></label>
+
+      <h4>App posters</h4>
+      <label class="field">Poster site URL<input id="s_poster_site_url"></label>
+      <label class="field">Poster browser<select id="s_poster_headless"><option value="1">Hidden (background)</option><option value="0">Visible (debug)</option></select></label>
+
+      <h4>Team link</h4>
+      <label class="field" style="grid-column:1/-1">Public link (teammates isse kholte hain)<input id="s_public_url" placeholder="https://sagar-pc.tail1234.ts.net"></label>
+
+      <h4>OpenAI API engine</h4>
+      <label class="field">API key<input id="s_openai_api_key" placeholder="sk-…"></label>
+      <label class="field">Model<input id="s_api_model"></label>
+      <label class="field">Size<input id="s_api_size"></label>
+      <label class="field">Quality (low / medium / high / blank)<input id="s_api_quality"></label>
+
+    </div>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" data-close>Cancel</button>
+      <button class="btn btn-primary" id="settingsSave">Save settings</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="downloadModal" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+  <div class="sheet sheet-sm">
+    <h3 id="dTitle">Download</h3>
+    <p class="hint">Files hub PC pe hain — yahan se zip mein apne laptop pe le lo.</p>
+    <div class="dl-list">
+      <a class="dl" data-dl="final"><svg class="ic"><use href="#i-disc"/></svg><span><b>Final files</b><small>App pe upload wali WebP — episode naam + series ke dono version</small></span></a>
+      <a class="dl" data-dl="images"><svg class="ic"><use href="#i-image"/></svg><span><b>Square thumbnails</b><small>ChatGPT se bani saari original images</small></span></a>
+      <a class="dl" data-dl="posters"><svg class="ic"><use href="#i-download"/></svg><span><b>Raw posters</b><small>Poster Studio ke CD wale 2:3 posters</small></span></a>
+      <a class="dl" data-dl="excel"><svg class="ic"><use href="#i-sheet"/></svg><span><b>Excel log</b><small>Status, prompts, file names</small></span></a>
+    </div>
+    <div class="sheet-actions"><button class="btn btn-ghost" data-close>Close</button></div>
+  </div>
+</div>
+
+<div class="modal hidden" id="teamModal" role="dialog" aria-modal="true" aria-labelledby="tTitle">
+  <div class="sheet">
+    <h3 id="tTitle">Team &amp; my agent</h3>
+
+    <section class="team-sec">
+      <h4>Mera agent — bas ek command</h4>
+      <p class="hint">Apne laptop pe <b>PowerShell</b> kholo (Start → "PowerShell" likho), neeche wala command paste karo, Enter. Wo khud Python/agent set karega, ChatGPT wala Chrome kholega, aur images <b>Desktop → KahaniFM Outputs → Series</b> folder mein bhi save karega. Window khuli rakho.</p>
+      <div class="cmd">
+        <code id="psCmd">…</code>
+        <button class="btn btn-primary btn-sm" id="copyPsBtn"><svg class="ic"><use href="#i-copy"/></svg>Copy</button>
+      </div>
+      <details class="mac">
+        <summary>Mac pe? (Terminal command)</summary>
+        <div class="cmd"><code id="macCmd">…</code><button class="btn btn-ghost btn-sm" id="copyMacBtn"><svg class="ic"><use href="#i-copy"/></svg>Copy</button></div>
+      </details>
+      <p class="hint small-note">Har din naya team link hota hai — to roz kaam shuru karte waqt yahin se fresh command copy karna. Pehli baar sirf: Chrome mein ChatGPT login.</p>
+      <div class="row-gap"><span class="agent-state" id="myAgentState"></span></div>
+    </section>
+
+    <section class="team-sec">
+      <h4>Team</h4>
+      <div id="teamList" class="team-list"></div>
+      <div class="admin-only add-user">
+        <input id="newUserName" placeholder="Teammate ka naam">
+        <input id="newUserPass" placeholder="Password (6+)" type="text">
+        <button class="btn btn-accent" id="addUserBtn"><svg class="ic"><use href="#i-plus"/></svg>Add teammate</button>
+      </div>
+    </section>
+
+    <section class="team-sec">
+      <h4>Mera password</h4>
+      <div class="add-user">
+        <input id="pwOld" type="password" placeholder="Purana password">
+        <input id="pwNew" type="password" placeholder="Naya password (6+)">
+        <button class="btn btn-ghost" id="pwSave">Change password</button>
+      </div>
+    </section>
+
+    <div class="sheet-actions"><button class="btn btn-ghost" data-close>Close</button></div>
+  </div>
+</div>
+
+<div class="modal hidden" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+  <div class="sheet sheet-sm">
+    <h3 id="cTitle">Are you sure?</h3>
+    <p class="hint" id="cText"></p>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" id="cNo">Cancel</button>
+      <button class="btn btn-primary" id="cYes">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="imgModal" role="dialog" aria-modal="true" aria-label="Preview">
+  <div class="viewer">
+    <img id="imgBig" alt="">
+    <div class="viewer-bar"><span id="imgCap"></span><span class="spacer"></span><a class="btn btn-ghost btn-sm" id="imgOpen" target="_blank">Open full size</a><button class="btn btn-icon btn-ghost" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="/static/app.js?v={{ v }}"></script>
+</body>
+</html>

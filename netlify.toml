@@ -1,0 +1,29 @@
+[build]
+  command = "python build_netlify.py"
+  publish = "public"
+  functions = "netlify/functions"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+
+[functions]
+  included_files = [
+    "templates/**",
+    "seeds/**",
+    "prompts/**",
+    "workspaces/**",
+    "settings.json",
+    "*.py"
+  ]
+
+# Direct Netlify CDN routing for static assets
+[[redirects]]
+  from = "/static/*"
+  to = "/static/:splat"
+  status = 200
+
+# Route application requests to the serverless Flask function
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/app"
+  status = 200
